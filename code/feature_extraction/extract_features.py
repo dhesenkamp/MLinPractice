@@ -15,7 +15,8 @@ from code.feature_extraction.character_length import CharacterLength
 from code.feature_extraction.feature_collector import FeatureCollector
 from code.feature_extraction.month import MonthExtractor
 from code.feature_extraction.sentiment import SentimentAnalyzer
-from code.util import COLUMN_TWEET, COLUMN_LABEL, COLUMN_MONTH
+from code.feature_extraction.sentiment import LikeExtractor
+from code.util import COLUMN_TWEET, COLUMN_LABEL, COLUMN_MONTH, COLUMN_LIKES
 
 
 # setting up CLI
@@ -29,6 +30,7 @@ parser.add_argument("-i", "--import_file", help = "import an existing pipeline f
 parser.add_argument("-c", "--char_length", action = "store_true", help = "compute the number of characters in the tweet")
 parser.add_argument("-m", "--month", action = "store_true", help = "extract month in which tweet was published")
 parser.add_argument("-s", "--sentiment", action = "store_true", help = "extracts compound sentiment from original tweet")
+parser.add_argument("-l", "--feature_likes", action = "store_true", help = "extracts amount of likes from a tweet")
 
 args = parser.parse_args()
 
@@ -53,6 +55,9 @@ else:    # need to create FeatureCollector manually
     if args.sentiment:
         # compound sentiment of tweet
         features.append(SentimentAnalyzer(COLUMN_TWEET))
+    if args.feature_likes:
+        # number of likes tweet has
+        features.append(LikeExtractor(COLUMN_LIKES))
     
     # create overall FeatureCollector
     feature_collector = FeatureCollector(features)
