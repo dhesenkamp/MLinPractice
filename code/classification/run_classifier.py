@@ -14,6 +14,7 @@ from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.pipeline import make_pipeline
 from mlflow import log_metric, log_param, set_tracking_uri
@@ -31,6 +32,7 @@ parser.add_argument("-f", "--frequency", action = "store_true", help = "label fr
 parser.add_argument("-u", "--uniform", action = "store_true", help = "uniform (random) classifier")
 parser.add_argument("--knn", type = int, help = "k nearest neighbor classifier with the specified value of k", default = None)
 parser.add_argument("--tree", type = int, help = "decision tree classifier with the specified value as max depth", default = None)
+parser.add_argument("--trees","--depth", type = int, help = "random forest with specified values as number of trees and max depth", default = None)
 parser.add_argument("--svm", type = int, help = "support vector machine with rbf kernel and specified value as regularization param", default = None)
 
 # <--- Evaluation metrics --->
@@ -99,6 +101,15 @@ else:   # manually set up a classifier
         standardizer = StandardScaler()
         decision_tree = DecisionTreeClassifier(max_depth = args.tree)
         classifier = make_pipeline(standardizer, decision_tree)
+        
+    elif args.trees is not None:
+        print("    random forest with {0}".format(args.trees) + "and max depth of {0}".format(args.depths))
+        log_param("classifier", "trees", "depth")
+        log_param("number_trees", args.trees, "max_depth", args.depth)
+        params = {"classifier": "trees", "number_trees": args.trees, "max_depth": args.depth}
+        standardizer = StandardScaler()
+        random_forest = RandomForestClassifier(n_estimator = args.trees, max_depth = args.depth)
+        classifier = make_pipeline(standardizer, random_forest)
     
     elif args.svm is not None:
         print("    svm classifier,regularization param: {0}".format(args.svm))
