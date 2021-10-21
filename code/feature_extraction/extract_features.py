@@ -15,7 +15,7 @@ from code.feature_extraction.character_length import CharacterLength
 from code.feature_extraction.feature_collector import FeatureCollector
 from code.feature_extraction.month import MonthExtractor
 from code.feature_extraction.sentiment import SentimentAnalyzer
-from code.feature_extraction.sentiment import LikeExtractor
+from code.feature_extraction.likes import LikeExtractor
 from code.util import COLUMN_TWEET, COLUMN_LABEL, COLUMN_MONTH, COLUMN_LIKES
 
 
