@@ -73,11 +73,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 tweets = df["tweet"][:100]
-vectorizer = TfidfVectorizer()
+vectorizer = TfidfVectorizer(max_features=5)
 tf_idf_vectors = vectorizer.fit_transform(tweets).todense()
 
 print(tf_idf_vectors.shape)
-print(vectorizer.get_feature_names()[142:145])
+print(vectorizer.get_feature_names())
 print(tf_idf_vectors[66:71, 142:145])
 
 tf_idf_similarities = cosine_similarity(tf_idf_vectors)
