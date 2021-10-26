@@ -78,7 +78,7 @@ tf_idf_vectors = vectorizer.fit_transform(tweets).todense()
 
 print(tf_idf_vectors.shape)
 print(vectorizer.get_feature_names())
-print(tf_idf_vectors[66:71, 142:145])
+print(tf_idf_vectors)
 
 tf_idf_similarities = cosine_similarity(tf_idf_vectors)
 print(tf_idf_similarities[:5,:5])
