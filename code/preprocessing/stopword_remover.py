@@ -11,6 +11,7 @@ Created on Thu Oct  7 12:21:12 2021
 from code.preprocessing.preprocessor import Preprocessor
 from nltk.corpus import stopwords
 import ast
+import gensim
 
 
 class StopwordRemover(Preprocessor):
@@ -22,19 +23,21 @@ class StopwordRemover(Preprocessor):
         super().__init__([input_column], output_column)
         
         
-    def _set_variables(self, inputs):
-        """Store stopwords for later reference"""
-        self._stopwords = stopwords.words("english")
+    #def _set_variables(self, inputs):
+     #   """Store stopwords for later reference"""
+      #  self._stopwords = stopwords.words("english")
     
     
     def _get_values(self, inputs):
         """Remove stopwords from given column."""
         # keeps raising invalid syntax error on terminal, works as supposed in jupyter
-        stops = set(stopwords.words('english'))
+        #stops = set(stopwords.words('english'))
         
-        for tweet in inputs[0]:
-            tweet_eval = ast.literal_eval(tweet)
-            column = str([_ for _ in tweet_eval if _ not in stops])
-        
+        #for tweet in inputs[0]:
+            #tweet_eval = ast.literal_eval(tweet)
+            #column = str([_ for _ in tweet_eval if _ not in stops])
+
+        column = [gensim.parsing.preprocessing.remove_stopwords(tweet) for tweet in inputs[0]]        
+    
         return column
     
